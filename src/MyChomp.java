@@ -12,6 +12,7 @@ public class MyChomp {
         for (i=3; i > -1; i--){
             if (i == 0){
                 break;
+
             }
             for (j=i; j > -1; j--) {
                 for (k=j; k > -1; k--) {
