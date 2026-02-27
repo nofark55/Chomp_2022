@@ -1,35 +1,48 @@
 public class MyChomp {
-    int i = 3;
-    int k = 3;
-    int j = 3;
+    int i, j, k;
     int boardnum = 0;
-    String output = "";
-    String temp = "";
 
-    //todo:print out all the 3x3 boards
-    public String createboard(){
+    public String createboard() {
+        for (i = 3; i >= 1; i--) {
+            for (j = i; j >= 0; j--) {
+                for (k = j; k >= 0; k--) {
+                    boardnum += 1;
+                    System.out.println("num"+ boardnum + " is " + i + ", " + j + ", " + k);
+                    System.out.println("Possible boards:");
+                    //i is column 1, it is the only one that needs this check though
+                    for (int row = 1; row < i; row++) {
+                        if (row == 0 && j == 0 && k == 0){
+                            System.out.println("no boards left, end board");
+                            break;
+                        }
+                        int nextI = row;
+                        int nextJ = Math.min(j, row);
+                        int nextK = Math.min(k, row);
+                        System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
+                    }
+                    for (int row = 0; row < j; row++) {
+                        int nextI = i;
+                        int nextJ = row;
+                        int nextK = Math.min(k, row);
+                        System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
+                    }
 
-        for (i=3; i > -1; i--){
-            if (i == 0){
-                break;
 
-            }
-            for (j=i; j > -1; j--) {
-                for (k=j; k > -1; k--) {
-                    boardnum +=1;
-                    System.out.println("board: " + i + ", " + j + ", " + k);
-                    System.out.println("board count: " + boardnum);
+                    for (int row = 0; row < k; row++) {
+                        int nextI = i;
+                        int nextJ = j;
+                        int nextK = row;
+                        System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
+                    }
                 }
             }
         }
-        return (temp);
+        //string type needs retrun
+        return "";
     }
-
 
     public static void main(String[] args) {
         MyChomp game = new MyChomp();
         game.createboard();
     }
 }
-
-
