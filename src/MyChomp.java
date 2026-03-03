@@ -1,11 +1,13 @@
 public class MyChomp {
     int i, j, k;
     int boardnum = 0;
+    boolean isboard = false;
 
     public String createboard() {
         for (i = 3; i >= 1; i--) {
             for (j = i; j >= 0; j--) {
                 for (k = j; k >= 0; k--) {
+
                     boardnum += 1;
                     System.out.println("num"+ boardnum + " is " + i + ", " + j + ", " + k);
                     System.out.println("Possible boards:");
@@ -19,12 +21,22 @@ public class MyChomp {
                         int nextJ = Math.min(j, row);
                         int nextK = Math.min(k, row);
                         System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
+
+                        if (nextI == 1 && nextJ == 0 && nextK == 0) {
+                            System.out.println("winning board found: " + "[" + i + ", " + j + ", " + k + "]");
+                        }
+
                     }
                     for (int row = 0; row < j; row++) {
                         int nextI = i;
                         int nextJ = row;
                         int nextK = Math.min(k, row);
                         System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
+
+                        if (nextI == 1 && nextJ == 0 && nextK == 0) {
+                            System.out.println("winning board found: " + "[" + i + ", " + j + ", " + k + "]");
+                        }
+
                     }
 
 
@@ -33,6 +45,11 @@ public class MyChomp {
                         int nextJ = j;
                         int nextK = row;
                         System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
+
+                        if (nextI == 1 && nextJ == 0 && nextK == 0) {
+                            System.out.println("winning board found: " + "[" + i + ", " + j + ", " + k + "]");
+                        }
+
                     }
                 }
             }
