@@ -22,6 +22,7 @@ public class MyChomp {
                     System.out.println("Possible boards:");
                     //i is column 1, it is the only one that needs this check though
                     for (int row = 1; row < i; row++) {
+
                         if (row == 0 && j == 0 && k == 0){
                             System.out.println("no boards left, end board");
                             break;
@@ -53,7 +54,7 @@ public class MyChomp {
                             }
 
                             if (LBoardCount.contains(" / " + i + ", " + j + ", " + k)) {
-                                FL = true;
+                                FL = false;
                                 break;
                             }
 
@@ -78,9 +79,9 @@ public class MyChomp {
                     }
 
                     if (FL) {
-                        WboardCount +=   " , [ " + i + ", " + k + ", " + j + " ]";
+                        WboardCount +=   " , [ " + i + ", " + j + ", " + k + " ]";
                     } else {
-                        LBoardCount += " , [ " + i + ", " + k + ", " + j + " ]";
+                        LBoardCount += " , [ " + i + ", " + j + ", " + k + " ]";
                     }
                 }
             }
