@@ -2,11 +2,20 @@ public class MyChomp {
     int i, j, k;
     int boardnum = 0;
     boolean isboard = false;
+    String LBoardCount = "";
+    String WboardCount = "";
+    boolean FL = false;
 
     public String createboard() {
-        for (i = 3; i >= 1; i--) {
-            for (j = i; j >= 0; j--) {
-                for (k = j; k >= 0; k--) {
+        for (i = 0; i <= 3; i++) {
+            for (j = i; j <= 3; j++) {
+                for (k = j; k <= 3; k++) {
+
+                    if (i == 1 && j == 0 && k == 0) {
+                        LBoardCount +=  " / " + i + ", " + j + ", " + k;
+                        continue;
+                    }
+
 
                     boardnum += 1;
                     System.out.println("num"+ boardnum + " is " + i + ", " + j + ", " + k);
@@ -26,19 +35,30 @@ public class MyChomp {
                             System.out.println("winning board found: " + "[" + i + ", " + j + ", " + k + "]");
                         }
 
-                    }
-                    for (int row = 0; row < j; row++) {
-                        int nextI = i;
-                        int nextJ = row;
-                        int nextK = Math.min(k, row);
-                        System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
-
-                        if (nextI == 1 && nextJ == 0 && nextK == 0) {
-                            System.out.println("winning board found: " + "[" + i + ", " + j + ", " + k + "]");
+                        if (LBoardCount.contains(" / " + i + ", " + j + ", " + k)) {
+                            FL = true;
+                            break;
                         }
 
                     }
+                    if (! FL) {
+                        for (int row = 0; row < j; row++) {
+                            int nextI = i;
+                            int nextJ = row;
+                            int nextK = Math.min(k, row);
+                            System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
 
+                            if (nextI == 1 && nextJ == 0 && nextK == 0) {
+                                System.out.println("winning board found: " + "[" + i + ", " + j + ", " + k + "]");
+                            }
+
+                            if (LBoardCount.contains(" / " + i + ", " + j + ", " + k)) {
+                                FL = true;
+                                break;
+                            }
+
+                        }
+                    }
 
                     for (int row = 0; row < k; row++) {
                         int nextI = i;
@@ -50,10 +70,23 @@ public class MyChomp {
                             System.out.println("winning board found: " + "[" + i + ", " + j + ", " + k + "]");
                         }
 
+                        if (LBoardCount.contains(" / " + i + ", " + j + ", " + k)) {
+                            FL = true;
+                            break;
+                        }
+
+                    }
+
+                    if (FL) {
+                        WboardCount +=   " , [ " + i + ", " + k + ", " + j + " ]";
+                    } else {
+                        LBoardCount += " , [ " + i + ", " + k + ", " + j + " ]";
                     }
                 }
             }
         }
+        System.out.println("Losing Boards: " + LBoardCount);
+        System.out.println("Winning Boards: " + WboardCount);
         //string type needs retrun
         return "";
     }
