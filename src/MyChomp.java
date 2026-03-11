@@ -1,94 +1,73 @@
 public class MyChomp {
     int i, j, k;
     int boardnum = 0;
-    boolean isboard = false;
     String LBoardCount = "";
     String WboardCount = "";
-    boolean FL = false;
 
     public String createboard() {
-        for (i = 0; i <= 3; i++) {
-            for (j = i; j <= 3; j++) {
-                for (k = j; k <= 3; k++) {
+        for (i = 0; i <= 100; i++) {
+            for (j = 0; j <= i; j++) {
+                for (k = 0; k <= j; k++) {
 
                     if (i == 1 && j == 0 && k == 0) {
-                        LBoardCount +=  " / " + i + ", " + j + ", " + k;
+                        //least amout of hardcoding, tbh I could just switch it be a hard coded case.
+                        LBoardCount += " [" + i + "," + j + "," + k + "]";
                         continue;
                     }
+                    if (i == 0) continue;
 
+                    boolean FL = false;
+                    boardnum +=1;
 
-                    boardnum += 1;
-                    System.out.println("num"+ boardnum + " is " + i + ", " + j + ", " + k);
-                    System.out.println("Possible boards:");
-                    //i is column 1, it is the only one that needs this check though
-                    for (int row = 1; row < i; row++) {
+                    for (int row = 0; row < i; row++) {
+                        int nI = row;
+                        int nJ = Math.min(j, row);
+                        int nK = Math.min(k, row);
+                        String nextState = "[" + nI + "," + nJ + "," + nK + "]";
 
-                        if (row == 0 && j == 0 && k == 0){
-                            System.out.println("no boards left, end board");
-                            break;
-                        }
-                        int nextI = row;
-                        int nextJ = Math.min(j, row);
-                        int nextK = Math.min(k, row);
-                        System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
-
-                        if (nextI == 1 && nextJ == 0 && nextK == 0) {
-                            System.out.println("winning board found: " + "[" + i + ", " + j + ", " + k + "]");
-                        }
-
-                        if (LBoardCount.contains(" / " + i + ", " + j + ", " + k)) {
+                        if (LBoardCount.contains(nextState)) {
                             FL = true;
                             break;
                         }
-
                     }
-                    if (! FL) {
+
+                    if (!FL) {
                         for (int row = 0; row < j; row++) {
-                            int nextI = i;
-                            int nextJ = row;
-                            int nextK = Math.min(k, row);
-                            System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
-
-                            if (nextI == 1 && nextJ == 0 && nextK == 0) {
-                                System.out.println("winning board found: " + "[" + i + ", " + j + ", " + k + "]");
-                            }
-
-                            if (LBoardCount.contains(" / " + i + ", " + j + ", " + k)) {
-                                FL = false;
+                            int nI = i;
+                            int nJ = row;
+                            int nK = Math.min(k, row);
+                            String nextState = "[" + nI + "," + nJ + "," + nK + "]";
+                            if (LBoardCount.contains(nextState)) {
+                                FL = true;
                                 break;
                             }
-
                         }
                     }
 
-                    for (int row = 0; row < k; row++) {
-                        int nextI = i;
-                        int nextJ = j;
-                        int nextK = row;
-                        System.out.println("[" + nextI + ", " + nextJ + ", " + nextK + "]");
-
-                        if (nextI == 1 && nextJ == 0 && nextK == 0) {
-                            System.out.println("winning board found: " + "[" + i + ", " + j + ", " + k + "]");
+                    if (!FL) {
+                        for (int row = 0; row < k; row++) {
+                            int nI = i;
+                            int nJ = j;
+                            int nK = row;
+                            String nextState = "[" + nI + "," + nJ + "," + nK + "]";
+                            if (LBoardCount.contains(nextState)) {
+                                FL = true;
+                                break;
+                            }
                         }
-
-                        if (LBoardCount.contains(" / " + i + ", " + j + ", " + k)) {
-                            FL = true;
-                            break;
-                        }
-
                     }
 
+                    String currentBoard = "[" + i + "," + j + "," + k + "]";
                     if (FL) {
-                        WboardCount +=   " , [ " + i + ", " + j + ", " + k + " ]";
+                        WboardCount += " " + currentBoard;
                     } else {
-                        LBoardCount += " , [ " + i + ", " + j + ", " + k + " ]";
+                        LBoardCount += " " + currentBoard;
                     }
                 }
             }
         }
-        System.out.println("Losing Boards: " + LBoardCount);
+        System.out.println("Losing Boards : " + LBoardCount);
         System.out.println("Winning Boards: " + WboardCount);
-        //string type needs retrun
         return "";
     }
 
