@@ -14,6 +14,7 @@ public class MyChomp {
                         //least amout of hardcoding, tbh I could just switch it be a hard coded case.
                         LBoardCount += " [" + i + "," + j + "," + k + "]";
                         continue;
+
                     }
                     if (i == 0) continue;
 
