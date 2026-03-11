@@ -9,6 +9,7 @@ public class MyChomp {
             for (j = 0; j <= i; j++) {
                 for (k = 0; k <= j; k++) {
 
+
                     if (i == 1 && j == 0 && k == 0) {
                         //least amout of hardcoding, tbh I could just switch it be a hard coded case.
                         LBoardCount += " [" + i + "," + j + "," + k + "]";
