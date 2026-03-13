@@ -4,10 +4,11 @@ public class MyChomp {
     String LBoardCount = "";
     String WboardCount = "";
 
-    public String createboard() {
-        for (i = 0; i <= 100; i++) {
+
+    public void createboard() {
+        for (i = 0; i <= 3; i++) {
             for (j = 0; j <= i; j++) {
-                for (k = 0; k <= j; k++) {
+                for (k = 0; k <= j; k++){
 
 
                     if (i == 1 && j == 0 && k == 0) {
@@ -65,12 +66,41 @@ public class MyChomp {
                     } else {
                         LBoardCount += " " + currentBoard;
                     }
+                    String bestMove = findBestMove(i, j, k);
+                    System.out.println("Board: [" + i + "," + j + "," + k + "] -> " + bestMove);
                 }
             }
         }
         System.out.println("Losing Boards : " + LBoardCount);
         System.out.println("Winning Boards: " + WboardCount);
-        return "";
+    }
+
+    public String findBestMove(int currentI, int currentJ, int currentK) {
+        for (int row = 0; row < currentI; row++) {
+            int nI = row;
+            int nJ = Math.min(currentJ, row);
+            int nK = Math.min(currentK, row);
+            String nextState = "[" + nI + "," + nJ + "," + nK + "]";
+            if (LBoardCount.contains(nextState)) return nextState;
+        }
+
+        for (int row = 0; row < currentJ; row++) {
+            int nI = currentI;
+            int nJ = row;
+            int nK = Math.min(currentK, row);
+            String nextState = "[" + nI + "," + nJ + "," + nK + "]";
+            if (LBoardCount.contains(nextState)) return nextState;
+        }
+
+        for (int row = 0; row < currentK; row++) {
+            int nI = currentI;
+            int nJ = currentJ;
+            int nK = row;
+            String nextState = "[" + nI + "," + nJ + "," + nK + "]";
+            if (LBoardCount.contains(nextState)) return nextState;
+        }
+
+        return "LB";
     }
 
     public static void main(String[] args) {
