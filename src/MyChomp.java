@@ -1,9 +1,11 @@
+import java.util.HashMap;
+
 public class MyChomp {
     int i, j, k, l, m;
     int boardnum = 0;
     String LBoardCount = "";
     String WboardCount = "";
-
+    HashMap<Integer, Integer> ChompBoard = new HashMap<>();
     public void createboard() {
         for (i = 0; i <= 5; i++) {
             for (j = 0; j <= i; j++) {
@@ -83,23 +85,28 @@ public class MyChomp {
     public String findBestMove(int cI, int cJ, int cK, int cL, int cM) {
         for (int r = 0; r < cI; r++) {
             String s = "[" + r + "," + Math.min(cJ, r) + "," + Math.min(cK, r) + "," + Math.min(cL, r) + "," + Math.min(cM, r) + "]";
-            if (LBoardCount.contains(s)) return s;
+            if (LBoardCount.contains(s))
+                return s;
         }
         for (int r = 0; r < cJ; r++) {
             String s = "[" + cI + "," + r + "," + Math.min(cK, r) + "," + Math.min(cL, r) + "," + Math.min(cM, r) + "]";
-            if (LBoardCount.contains(s)) return s;
+            if (LBoardCount.contains(s))
+                return s;
         }
         for (int r = 0; r < cK; r++) {
             String s = "[" + cI + "," + cJ + "," + r + "," + Math.min(cL, r) + "," + Math.min(cM, r) + "]";
-            if (LBoardCount.contains(s)) return s;
+            if (LBoardCount.contains(s))
+                return s;
         }
         for (int r = 0; r < cL; r++) {
             String s = "[" + cI + "," + cJ + "," + cK + "," + r + "," + Math.min(cM, r) + "]";
-            if (LBoardCount.contains(s)) return s;
+            if (LBoardCount.contains(s))
+                return s;
         }
         for (int r = 0; r < cM; r++) {
             String s = "[" + cI + "," + cJ + "," + cK + "," + cL + "," + r + "]";
-            if (LBoardCount.contains(s)) return s;
+            if (LBoardCount.contains(s))
+                return s;
         }
         return "LB";
     }
