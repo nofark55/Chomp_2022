@@ -1,114 +1,36 @@
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class MyChomp {
-    int i, j, k, l, m;
-    int boardnum = 0;
-    String LBoardCount = "";
-    String WboardCount = "";
-    HashMap<Integer, Integer> ChompBoard = new HashMap<>();
+    int size = 3;
+    public  HashMap<String, String> states = new HashMap<>();
     public void createboard() {
-        for (i = 0; i <= 5; i++) {
-            for (j = 0; j <= i; j++) {
-                for (k = 0; k <= j; k++) {
-                    for (l = 0; l <= k; l++) {
-                        for (m = 0; m <= l; m++) {
 
-                            if (i == 1 && j == 0 && k == 0 && l == 0 && m == 0) {
-                                LBoardCount += " [" + i + "," + j + "," + k + "," + l + "," + m + "]";
-                                continue;
-                            }
-                            if (i == 0) continue;
+        int[] startHeights = new int[size];
+        //https://www.w3schools.com/java/ref_arrays_fill.asp
+        Arrays.fill(startHeights, size);
 
-                            boolean FL = false;
-                            boardnum += 1;
-
-                            for (int row = 0; row < i; row++) {
-                                if (LBoardCount.contains("[" + row + "," + Math.min(j, row) + "," + Math.min(k, row) + "," + Math.min(l, row) + "," + Math.min(m, row) + "]")) {
-                                    FL = true;
-                                    break;
-                                }
-                            }
-
-                            if (!FL) {
-                                for (int row = 0; row < j; row++) {
-                                    if (LBoardCount.contains("[" + i + "," + row + "," + Math.min(k, row) + "," + Math.min(l, row) + "," + Math.min(m, row) + "]")) {
-                                        FL = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!FL) {
-                                for (int row = 0; row < k; row++) {
-                                    if (LBoardCount.contains("[" + i + "," + j + "," + row + "," + Math.min(l, row) + "," + Math.min(m, row) + "]")) {
-                                        FL = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!FL) {
-                                for (int row = 0; row < l; row++) {
-                                    if (LBoardCount.contains("[" + i + "," + j + "," + k + "," + row + "," + Math.min(m, row) + "]")) {
-                                        FL = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!FL) {
-                                for (int row = 0; row < m; row++) {
-                                    if (LBoardCount.contains("[" + i + "," + j + "," + k + "," + l + "," + row + "]")) {
-                                        FL = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            String currentBoard = "[" + i + "," + j + "," + k + "," + l + "," + m + "]";
-                            if (FL) {
-                                WboardCount += " " + currentBoard;
-                            } else {
-                                LBoardCount += " " + currentBoard;
-                            }
-
-                            System.out.println("Board: " + currentBoard + " -> " + findBestMove(i, j, k, l, m));
-                        }
-                    }
-                }
-            }
-        }
-        System.out.println("Losing Boards : " + LBoardCount);
-        System.out.println("Winning Boards: " + WboardCount);
     }
 
-    public String findBestMove(int cI, int cJ, int cK, int cL, int cM) {
-        for (int r = 0; r < cI; r++) {
-            String s = "[" + r + "," + Math.min(cJ, r) + "," + Math.min(cK, r) + "," + Math.min(cL, r) + "," + Math.min(cM, r) + "]";
-            if (LBoardCount.contains(s))
-                return s;
+    public boolean boardsolver(int[] heights) {
+        //my current priority is ensuring that it works on a 3x3 in the same format that the chomp file uses for myplayer
+        //this boardsolver interacts with the hashmap states and iterates through every
+        String state = Arrays.toString(heights);
+        //this checkes the hasmap states to see if the array of state is inside of it and returns false if
+        if (states.containsKey(state)) {
+            //https://www.w3schools.com/java/ref_hashmap_containskey.asp
+            //checls if value is L and returns false if it is basically
+            return !states.get(state).equals("L");
         }
-        for (int r = 0; r < cJ; r++) {
-            String s = "[" + cI + "," + r + "," + Math.min(cK, r) + "," + Math.min(cL, r) + "," + Math.min(cM, r) + "]";
-            if (LBoardCount.contains(s))
-                return s;
+        //special case for the final one that is a lose
+        if (heights[0] == 1 && (heights.length == 1 || heights[1] == 0)) {
+            states.put(state, "L");
+            return false;
         }
-        for (int r = 0; r < cK; r++) {
-            String s = "[" + cI + "," + cJ + "," + r + "," + Math.min(cL, r) + "," + Math.min(cM, r) + "]";
-            if (LBoardCount.contains(s))
-                return s;
-        }
-        for (int r = 0; r < cL; r++) {
-            String s = "[" + cI + "," + cJ + "," + cK + "," + r + "," + Math.min(cM, r) + "]";
-            if (LBoardCount.contains(s))
-                return s;
-        }
-        for (int r = 0; r < cM; r++) {
-            String s = "[" + cI + "," + cJ + "," + cK + "," + cL + "," + r + "]";
-            if (LBoardCount.contains(s))
-                return s;
-        }
-        return "LB";
+
+        //in the current moment, saving to the file seems like it
+
+        return false;
     }
 
     public static void main(String[] args) {
