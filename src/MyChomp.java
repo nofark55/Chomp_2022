@@ -5,11 +5,9 @@ public class MyChomp {
     int size = 3;
     public  HashMap<String, String> states = new HashMap<>();
     public void createboard() {
-
         int[] startHeights = new int[size];
         //https://www.w3schools.com/java/ref_arrays_fill.asp
         Arrays.fill(startHeights, size);
-
     }
 
     public boolean boardsolver(int[] heights) {
@@ -28,9 +26,20 @@ public class MyChomp {
             return false;
         }
 
-        //in the current moment, saving to the file seems like it
+        //in the current moment, saving to the file seems like it won't really matter
 
         return false;
+    }
+
+        public void RecursiveSteps(int[] heights) {
+            for (int i = size; i > 0; i--) {
+
+            }
+        }
+
+
+    public void NextStepFinder(int[] heights) {
+
     }
 
     public static void main(String[] args) {
