@@ -17,7 +17,7 @@ public class MyChomp {
         //this checkes the hasmap states to see if the array of state is inside of it and returns false if
         if (states.containsKey(state)) {
             //https://www.w3schools.com/java/ref_hashmap_containskey.asp
-            //checls if value is L and returns false if it is basically
+            //checls if value is L and returns false if it is basicall
             return !states.get(state).equals("L");
         }
         //special case for the final one that is a lose
@@ -41,6 +41,10 @@ public class MyChomp {
                // }
             }
         }
+    }
+        //logic in here for next move
+        public void SimulateChomp (){
+
     }
 
         public void RecursiveSteps(int[] heights) {
