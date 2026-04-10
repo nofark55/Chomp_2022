@@ -35,10 +35,10 @@ public class MyChomp {
                 //int[] nextState = simulateChomp(heights, r, c);
 
                 // gonna make nextstate later
-                if (!boardsolver(nextState)) {
-                    states.put(state, r + "," + c); // Save the winning move
-                    return true;
-                }
+               // if (!boardsolver(nextState)) {
+                 //   states.put(state, r + "," + c); // Save the winning move
+                   // return true;
+               // }
             }
         }
     }
