@@ -26,9 +26,21 @@ public class MyChomp {
             return false;
         }
 
-        //in the current moment, saving to the file seems like it won't really matter
+        for (int c = 0; c < size; c++) { // columns
+            for (int r = 0; r < heights[c]; r++) { //rows, heights[c] bc if its not that then it will waste time solving stuff that already got sovled
 
-        return false;
+                //ensure that last square wont get clicked
+                if (r == 0 && c == 0) continue;
+                //conna make simulate chomp do next move later
+                //int[] nextState = simulateChomp(heights, r, c);
+
+                // gonna make nextstate later
+                if (!boardsolver(nextState)) {
+                    states.put(state, r + "," + c); // Save the winning move
+                    return true;
+                }
+            }
+        }
     }
 
         public void RecursiveSteps(int[] heights) {
