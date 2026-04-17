@@ -26,36 +26,37 @@ public class MyChomp {
             return false;
         }
 
-        for (int c = 0; c < size; c++) { // columns
-            for (int r = 0; r < heights[c]; r++) { //rows, heights[c] bc if its not that then it will waste time solving stuff that already got sovled
+         for (int c = 0; c < size; c++) { // Columns
+             for (int r = 0; r < heights[c]; r++) { // Rows
+                 if (r == 0 && c == 0)
+                     continue; // Skip the last square
 
-                //ensure that last square wont get clicked
-                if (r == 0 && c == 0) continue;
-                //conna make simulate chomp do next move later
-                //int[] nextState = simulateChomp(heights, r, c);
-
-                // gonna make nextstate later
-               // if (!boardsolver(nextState)) {
-                 //   states.put(state, r + "," + c); // Save the winning move
-                   // return true;
-               // }
-            }
-        }
+                 int[] nextState = simulateChomp(heights, r, c);
+                 if (!boardsolver(nextState)) {
+                     states.put(state, r + "," + c);
+                     return true;
+                 }
+             }
+         // If no winning move is found, then losing move
+        states.put(state, "L");
+        return false;
     }
-        //logic in here for next move
-        public void SimulateChomp (){
-
+        return false;
     }
+        //logic in here for next move, row height col will be put in later
+    public int[] simulateChomp(int[] heights, int row, int col) {
+        int[] newHeights = Arrays.copyOf(heights, heights.length);
 
-        public void RecursiveSteps(int[] heights) {
-            for (int i = size; i > 0; i--) {
-
-            }
+        for (int c = col; c < size; c++) {
+            newHeights[c] = Math.min(newHeights[c], row);
         }
 
+        return newHeights;
 
-    public void NextStepFinder(int[] heights) {
+    }
 
+    public int[] convertToHeights(Chip[][] board) {
+        //I need to convert it for my player so that I can translate it
     }
 
     public static void main(String[] args) {
