@@ -57,6 +57,8 @@ public class MyChomp {
 
     public int[] convertToHeights(Chip[][] board) {
         //I need to convert it for my player so that I can translate it
+
+        return n
     }
 
     public static void main(String[] args) {
