@@ -2,8 +2,19 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class MyChomp {
+    //alter to 10, save board then done
     int size = 3;
-    public  HashMap<String, String> states = new HashMap<>();
+    private static class StateInfo {
+        String result; // "W" for winning, "L" for losing
+        String bestMove; // Best move in "row,col" format
+
+        StateInfo(String result, String bestMove) {
+            this.result = result;
+            this.bestMove = bestMove;
+        }
+    }
+
+    public HashMap<String, StateInfo> states = new HashMap<>();
     public void createboard() {
         int[] startHeights = new int[size];
         //https://www.w3schools.com/java/ref_arrays_fill.asp
@@ -11,64 +22,108 @@ public class MyChomp {
     }
 
     public boolean boardsolver(int[] heights) {
-        //my current priority is ensuring that it works on a 3x3 in the same format that the chomp file uses for myplayer
-        //this boardsolver interacts with the hashmap states and iterates through every
         String state = Arrays.toString(heights);
-        //this checkes the hasmap states to see if the array of state is inside of it and returns false if
+
+        // Check if the state is already solved
         if (states.containsKey(state)) {
-            //https://www.w3schools.com/java/ref_hashmap_containskey.asp
-            //checls if value is L and returns false if it is basicall
-            return !states.get(state).equals("L");
+            return states.get(state).result.equals("W");
         }
-        //special case for the final one that is a lose
+
+        // Special case: losing state (only one chip left)
         if (heights[0] == 1 && (heights.length == 1 || heights[1] == 0)) {
-            states.put(state, "L");
+            states.put(state, new StateInfo("L", null));
             return false;
         }
+        //add comment, maybe one on game theory
+        // Try all possible moves
+        for (int c = 0; c < size; c++) { // Columns
+            for (int r = 0; r < heights[c]; r++) { // Rows
+                if (r == 0 && c == 0) {
+                    continue; // Skip the last square
+                }
 
-         for (int c = 0; c < size; c++) { // Columns
-             for (int r = 0; r < heights[c]; r++) { // Rows
-                 if (r == 0 && c == 0)
-                     continue; // Skip the last square
+                int[] nextState = simulateChomp(heights, r, c);
+                if (!boardsolver(nextState)) { // Recursive step
+                    states.put(state, new StateInfo("W", r + "," + c)); // Winning move
+                    return true;
+                }
+            }
+        }
 
-                 int[] nextState = simulateChomp(heights, r, c);
-                 if (!boardsolver(nextState)) {
-                     states.put(state, r + "," + c);
-                     return true;
-                 }
-             }
-         // If no winning move is found, then losing move
-        states.put(state, "L");
+        // If no winning move is found, mark as losing state
+        states.put(state, new StateInfo("L", null));
         return false;
     }
-        return false;
+
+    public String getBestMove(int[] heights) {
+        String state = Arrays.toString(heights);
+        StateInfo info = states.get(state);
+        return (info != null && info.bestMove != null) ? info.bestMove : "No move available";
     }
-        //logic in here for next move, row height col will be put in later
+
     public int[] simulateChomp(int[] heights, int row, int col) {
         int[] newHeights = Arrays.copyOf(heights, heights.length);
 
+        // Update the heights for all columns >= col
         for (int c = col; c < size; c++) {
             newHeights[c] = Math.min(newHeights[c], row);
         }
 
         return newHeights;
-
     }
 
     public int[] convertToHeights(Chip[][] board) {
-        //I need to convert it for my player so that I can translate it
+        int[] heights = new int[size];
 
-        return n
+        // Calculate the height of each column
+        for (int c = 0; c < size; c++) {
+            int height = 0;
+            for (int r = 0; r < board.length; r++) {
+                if (board[r][c] != null) { // assime null means no chip
+                    height++;
+                } else {
+                    break;
+                }
+            }
+            heights[c] = height;
+        }
+
+        return heights;
+    }
+
+    public void logAllBestMoves() {
+        // Generate all possible board states
+        generateAndSolveBoards(new int[size], size - 1);
+
+        // Log all states and their best moves
+        // : form works best bc other methods would take sigificnatly more lines. 
+        for (String state : states.keySet()) {
+            StateInfo info = states.get(state);
+            System.out.println("State: " + state + ", Result: " + info.result + ", Best Move: " + info.bestMove);
+        }
+    }
+
+    private void generateAndSolveBoards(int[] heights, int column) {
+        if (column < 0) {
+            boardsolver(heights);
+            return;
+        }
+
+        for (int h = 0; h <= size; h++) {
+            heights[column] = h;
+            generateAndSolveBoards(heights, column - 1);
+        }
     }
 
     public static void main(String[] args) {
         MyChomp game = new MyChomp();
         long startTime = System.nanoTime();
-        game.createboard();
-        game.createboard();
+
+
+        game.logAllBestMoves();
+
         long endTime = System.nanoTime();
         double durationMs = (endTime - startTime) / 1_000_000.0;
-
         System.out.println("TotalT: " + durationMs + " ms");
     }
 }
