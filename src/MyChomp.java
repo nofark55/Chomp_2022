@@ -1,12 +1,13 @@
 import java.util.Arrays;
 import java.util.HashMap;
+import java.io.Serializable;
 
 public class MyChomp {
     //alter to 10, save board then done
-    int size = 3;
+    int size = 4;
     private static class StateInfo {
-        String result; // "W" for winning, "L" for losing
-        String bestMove; // Best move in "row,col" format
+        String result; // "W" for winning "L" for lose
+        String bestMove;
 
         StateInfo(String result, String bestMove) {
             this.result = result;
