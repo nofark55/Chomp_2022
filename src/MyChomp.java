@@ -1,11 +1,15 @@
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.io.Serializable;
 
-public class MyChomp {
+public class MyChomp implements Serializable {
     //alter to 10, save board then done
+    //slightly increases preformance
+    //https://stackoverflow.com/questions/14274480/static-final-long-serialversionuid-1l
+    private static final long serialVersionUID = 1L;
     int size = 4;
-    private static class StateInfo {
+    private static class StateInfo implements Serializable {
+        private static final long serialVersionUID = 1L;
         String result; // "W" for winning "L" for lose
         String bestMove;
 
@@ -91,6 +95,29 @@ public class MyChomp {
 
         return heights;
     }
+    //needed for saving the states tothe seralize file
+    public void saveStates(String filename) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(this.states);
+            System.out.println("saved to: " + filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //file loader
+    //https://stackoverflow.com/questions/1129795/what-is-suppresswarnings-unchecked-in-java
+    @SuppressWarnings("unchecked")
+    public void loadStates(String filename) {
+        File file = new File(filename);
+        if (!file.exists()) return;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+            this.states = (HashMap<String, StateInfo>) ois.readObject();
+            System.out.println("States loaded successfully from " + filename);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void logAllBestMoves() {
         // Generate all possible board states
@@ -118,13 +145,24 @@ public class MyChomp {
 
     public static void main(String[] args) {
         MyChomp game = new MyChomp();
-        long startTime = System.nanoTime();
+        String saveFile = "chomp_states.dat";
+        //without this, it will try to trwrite to chomp_states every single time you load
+        // Try to load existing data
+        game.loadStates(saveFile);
 
+        if (game.states.isEmpty()) {
+            System.out.println("No save");
+            long startTime = System.nanoTime();
+            game.logAllBestMoves();
+            long endTime = System.nanoTime();
 
-        game.logAllBestMoves();
+            // Save after calculation
+            game.saveStates(saveFile);
 
-        long endTime = System.nanoTime();
-        double durationMs = (endTime - startTime) / 1_000_000.0;
-        System.out.println("TotalT: " + durationMs + " ms");
+            double durationMs = (endTime - startTime) / 1_000_000.0;
+            System.out.println("Calculation Time: " + durationMs + " ms");
+        } else {
+            System.out.println("Loaded " + game.states.size() + " states");
+        }
     }
 }
