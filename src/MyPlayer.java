@@ -25,10 +25,8 @@ public class MyPlayer {
             int r = (info >> 3) & 0x7;
             int c = info & 0x7;
 
-            System.out.println("AI Move Found! Playing: Row " + r + ", Col " + c);
+            System.out.println("Row " + r + ", Col " + c);
 
-            // In your Chomp.java: row = theMove.getX(), col = theMove.getY()
-            // So we put Row in X and Col in Y
             return new Point(r, c);
         }
 
